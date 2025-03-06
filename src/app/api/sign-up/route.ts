@@ -41,7 +41,7 @@ export async function POST(request: Request) {
         // user already exists but not verified
         const hashedPassword = await bcrypt.hash(password, 10);
         const expiryDate = new Date();
-        expiryDate.setMinutes(expiryDate.getHours() + 1);
+        expiryDate.setHours(expiryDate.getHours() + 1); // set expiry time to 1 hour
 
         existingUserByEmail.password = hashedPassword;
         existingUserByEmail.verifyCode = verifyCode;
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
       // user does not exist
       const hashedPassword = await bcrypt.hash(password, 10);
       const expiryDate = new Date();
-      expiryDate.setMinutes(expiryDate.getHours() + 1);
+      expiryDate.setHours(expiryDate.getHours() + 1);
 
       const newUser = new User({
         username,
