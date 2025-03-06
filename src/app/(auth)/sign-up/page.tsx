@@ -8,7 +8,7 @@ import { useDebounceCallback } from "usehooks-ts";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import axios, { AxiosError } from "axios";
-import { Loader, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 import { signUpSchema } from "@/schemas/signUpSchema";
 import { ApiResponse } from "@/types/ApiResponse";
@@ -116,7 +116,7 @@ function Page() {
                     />
                   </FormControl>
                   {isCheckingUsername && (
-                    <Loader className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
                   {!isCheckingUsername && usernameMessage && (
                     <p
