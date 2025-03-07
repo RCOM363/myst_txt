@@ -51,7 +51,7 @@ function Page() {
     }
 
     if (result?.url) {
-      // router.replace("/dashboard");
+      router.replace("/dashboard");
     }
   };
 

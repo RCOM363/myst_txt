@@ -29,7 +29,7 @@ export async function POST(request: Request) {
   const { acceptMessages } = await request.json();
 
   try {
-    const result = acceptMessageSchema.safeParse(acceptMessages);
+    const result = acceptMessageSchema.safeParse({ acceptMessages });
 
     if (!result.success) {
       const errors = result.error.format().acceptMessage?._errors || [];
