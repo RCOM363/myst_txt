@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     const result = acceptMessageSchema.safeParse({ acceptMessages });
 
     if (!result.success) {
-      const errors = result.error.format().acceptMessage?._errors || [];
+      const errors = result.error.format().acceptMessages?._errors || [];
       return Response.json(
         {
           success: false,
