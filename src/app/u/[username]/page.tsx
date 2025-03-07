@@ -87,9 +87,11 @@ function Page() {
 
   return (
     <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
-      <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
+      <h1 className="text-4xl text-center font-bold mb-4">Public Profile Link</h1>
       <div className="mb-4">
-        <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>{" "}
+        <h2 className="text-sm font-semibold mb-2">
+          Send Anonymous message to @{username}
+        </h2>{" "}
         <div className="flex items-center">
           <Form {...form}>
             <form
@@ -150,16 +152,16 @@ function Page() {
         )}
       </Button>
       <div className="mt-4 grid grid-cols-1 md:grid-cols-1 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Messages</CardTitle>
-            <CardDescription>
-              Click on any messages below to select it
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col space-y-4">
-            {messages &&
-              messages.map((message, index) => (
+        {messages.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Messages</CardTitle>
+              <CardDescription>
+                Click on any messages below to select it
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-col space-y-4">
+              {messages.map((message, index) => (
                 <Button
                   key={index}
                   variant="outline"
@@ -169,8 +171,9 @@ function Page() {
                   {message}
                 </Button>
               ))}
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );
