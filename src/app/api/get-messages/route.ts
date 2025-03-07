@@ -29,7 +29,7 @@ export async function GET(request: Request) {
 
   try {
     const user = await User.aggregate([
-      { $match: { id: userId } },
+      { $match: { _id: userId } },
       { $unwind: "$messages" }, // splits messages into separate documents
       { $sort: { "messages.createdAt": -1 } }, // sort messages documents
       { $group: { _id: "_id", messages: { $push: "$messages" } } }, // group messages into single document

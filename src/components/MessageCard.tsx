@@ -4,6 +4,7 @@ import React from "react";
 import { toast } from "sonner";
 import { X } from "lucide-react";
 import axios from "axios";
+import dayjs from "dayjs";
 
 import {
   Card,
@@ -45,40 +46,38 @@ function MessageCard({ message, onMessageDelete }: messageCardProp) {
   };
 
   return (
-    <Card>
+    <Card className="card-bordered">
       <CardHeader>
-        <CardTitle>Card Title</CardTitle>
-        <CardDescription>Card Description</CardDescription>
-        {/* Alert dialog */}
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="destructive">
-              <X className=" w-5 h-5" />
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete
-                message from our servers.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleDelete}>
-                Continue
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <div className="flex justify-between items-center">
+          <CardTitle>{message.content}</CardTitle>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive">
+                <X className="w-5 h-5" />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  this message.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDelete}>
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
+        <div className="text-sm">
+          {dayjs(message.createdAt).format("MMM D, YYYY h:mm A")}
+        </div>
       </CardHeader>
-      <CardContent>
-        <p>Card Content</p>
-      </CardContent>
-      <CardFooter>
-        <p>Card Footer</p>
-      </CardFooter>
+      <CardContent></CardContent>
     </Card>
   );
 }
