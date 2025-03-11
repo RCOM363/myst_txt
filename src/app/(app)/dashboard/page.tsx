@@ -23,7 +23,6 @@ function Page() {
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
 
   const { data: session } = useSession();
-  console.log("Session: ", session);
 
   const form = useForm({
     resolver: zodResolver(acceptMessageSchema),
@@ -115,8 +114,8 @@ function Page() {
   };
 
   return (
-    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
-      <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
+    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 rounded w-[90%] lg:max-w-6xl">
+      <h1 className="text-4xl text-[#8a2be2] font-bold mb-4">User Dashboard</h1>
       <div className="mb-4">
         <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>{" "}
         <div className="flex items-center">
@@ -126,13 +125,19 @@ function Page() {
             disabled
             className="input input-bordered w-full p-2 mr-2"
           />
-          <Button onClick={copyToClipboard}>Copy</Button>
+          <Button
+            className="bg-[#8a2be2] hover:bg-[#7424c9] text-white"
+            onClick={copyToClipboard}
+          >
+            Copy
+          </Button>
         </div>
       </div>
 
-      <div className="mb-4">
+      <div className="flex justify-start items-center mb-4">
         <Switch
           {...register("acceptMessages")}
+          className="data-[state=checked]:bg-[#8a2be2]"
           checked={acceptMessages}
           onCheckedChange={handleSwitchChange}
           disabled={isSwitchLoading}
@@ -144,8 +149,7 @@ function Page() {
       <Separator />
 
       <Button
-        className="mt-4"
-        variant="outline"
+        className="mt-4 text-[#8a2be2] hover:text-white hover:bg-[#7424c9] bg-white"
         onClick={(e) => {
           e.preventDefault();
           fetchMessages(true);

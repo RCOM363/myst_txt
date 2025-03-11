@@ -12,7 +12,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import {
@@ -28,7 +27,7 @@ import { messageSchema } from "@/schemas/messageSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
-import { Loader2 } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
 
 function Page() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -63,6 +62,7 @@ function Page() {
       });
     } finally {
       setIsSubmitting(false);
+      setMessages([]);
     }
   };
 
@@ -70,7 +70,8 @@ function Page() {
     setAreMessagesLoading(true);
     try {
       const response = await axios.post<ApiResponse>("/api/suggest-messages");
-      const msgs = response.data.questions?.split("||");
+      const resStr = response.data.questions?.slice(0, -1);
+      const msgs = resStr?.split("||");
       setMessages(msgs as Array<string>);
       toast.success("Fetched suggestion messages successfully", {
         description: response.data.message,
@@ -86,94 +87,102 @@ function Page() {
   };
 
   return (
-    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
-      <h1 className="text-4xl text-center font-bold mb-4">Public Profile Link</h1>
-      <div className="mb-4">
-        <h2 className="text-sm font-semibold mb-2">
-          Send Anonymous message to @{username}
-        </h2>{" "}
-        <div className="flex items-center">
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="input input-bordered w-full p-2 mr-2"
-            >
-              <FormField
-                control={form.control}
-                name="content"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Message</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter your message here"
-                        {...field}
-                        name="content"
-                        className="h-[10vh]"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button
-                type="submit"
-                className="w-full mt-4"
-                disabled={isSubmitting}
+    <div className="w-[100vw] h-[100vh] bg-gradient-to-b from-[#f0e6ff] to-[#f8f0ff] pt-20">
+      <div className="w-[90%] mx-auto md:mx-8 lg:mx-auto p-6 rounded max-w-2xl border-[#8a2be2]/100 bg-white shadow-lg">
+        <h1 className="text-3xl lg:text-4xl text-[#8a2be2] text-center font-bold mb-4">
+          Send an Anonymous Message
+        </h1>
+        <div className="mb-4">
+          <h2 className="text-sm text-center font-semibold mb-2">
+            Your message will be delivered to @{username} anonymously.
+          </h2>{" "}
+          <div className="flex items-center">
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="input input-bordered w-full p-2 mr-2"
               >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Please wait
-                  </>
-                ) : (
-                  "Send message"
-                )}
-              </Button>
-            </form>
-          </Form>
-        </div>
-      </div>
-      <Separator />
-
-      <Button
-        type="submit"
-        className="mt-4"
-        disabled={areMessagesLoading}
-        onClick={() => fetchSuggestionMessages()}
-      >
-        {areMessagesLoading ? (
-          <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Please wait
-          </>
-        ) : (
-          "Get message suggestions"
-        )}
-      </Button>
-      <div className="mt-4 grid grid-cols-1 md:grid-cols-1 gap-6">
-        {messages.length > 0 && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Messages</CardTitle>
-              <CardDescription>
-                Click on any messages below to select it
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex flex-col space-y-4">
-              {messages.map((message, index) => (
+                <FormField
+                  control={form.control}
+                  name="content"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter your message here"
+                          {...field}
+                          name="content"
+                          className="h-[10vh]"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <Button
-                  key={index}
-                  variant="outline"
-                  className="mb-2"
-                  onClick={() => form.setValue("content", message)}
+                  type="submit"
+                  className="w-full mt-4 bg-[#8a2be2] hover:bg-[#7424c9] text-white"
+                  disabled={isSubmitting}
                 >
-                  {message}
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Please wait
+                    </>
+                  ) : (
+                    "Send message"
+                  )}
                 </Button>
-              ))}
-            </CardContent>
-          </Card>
-        )}
+              </form>
+            </Form>
+          </div>
+        </div>
+        <Separator />
+
+        <div className="w-full flex justify-center items-center">
+          <Button
+            type="submit"
+            className="mt-4 text-[#8a2be2] bg-white hover:bg-[#7424c9] hover:text-white"
+            disabled={areMessagesLoading}
+            onClick={() => fetchSuggestionMessages()}
+          >
+            {areMessagesLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Please wait
+              </>
+            ) : (
+              <>
+                <Sparkles className="mr-2 h-4 w-4" />
+                Get message suggestions
+              </>
+            )}
+          </Button>
+        </div>
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-1 gap-6">
+          {messages.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Messages</CardTitle>
+                <CardDescription>
+                  Click on any messages below to select it
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="w-full flex flex-col items-center space-y-4">
+                {messages.map((message, index) => (
+                  <Button
+                    key={index}
+                    variant="outline"
+                    className="w-full text-wrap text-ellipsis text-center p-3 mb-2"
+                    onClick={() => form.setValue("content", message)}
+                  >
+                    {message}
+                  </Button>
+                ))}
+              </CardContent>
+            </Card>
+          )}
+        </div>
       </div>
     </div>
   );
