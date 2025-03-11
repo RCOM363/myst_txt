@@ -2,18 +2,11 @@
 
 import React from "react";
 import { toast } from "sonner";
-import { X } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import axios from "axios";
 import dayjs from "dayjs";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -48,12 +41,12 @@ function MessageCard({ message, onMessageDelete }: messageCardProp) {
   return (
     <Card className="card-bordered">
       <CardHeader>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between gap-2 items-center">
           <CardTitle>{message.content}</CardTitle>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button className="w-6 h-6" variant="destructive">
-                <X className="w-full h-full" />
+              <Button className="w-8 h-8" variant="destructive">
+                <Trash2 />
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
@@ -77,7 +70,6 @@ function MessageCard({ message, onMessageDelete }: messageCardProp) {
           {dayjs(message.createdAt).format("MMM D, YYYY h:mm A")}
         </div>
       </CardHeader>
-      <CardContent></CardContent>
     </Card>
   );
 }

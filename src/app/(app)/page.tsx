@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 export default function Home() {
   return (
     <main className="flex-1 flex flex-col">
-      <section className="bg-gradient-to-b from-[#f0e6ff] to-[#f8f0ff] h-[89vh] flex justify-center p-1 lg:p-8 ">
+      <section className="h-[89vh] flex justify-center p-1 lg:p-8 ">
         <div className="container grid grid-cols-1 lg:grid-cols-2 items-center gap-6 md:gap-0 p-5 md:p-2">
           <div className="flex max-w-[980px] flex-col items-center lg:items-start gap-2">
             <h1 className="text-4xl text-center font-bold leading-tight tracking-tighter text-[#8a2be2] md:text-5xl lg:text-left lg:text-6xl lg:leading-[1.1]">

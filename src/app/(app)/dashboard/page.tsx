@@ -13,7 +13,7 @@ import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
 import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
 import { Button } from "@/components/ui/button";
-import { Loader2, RefreshCcw } from "lucide-react";
+import { Copy, Loader2, RefreshCcw } from "lucide-react";
 import MessageCard from "@/components/MessageCard";
 import { User } from "next-auth";
 
@@ -123,12 +123,13 @@ function Page() {
             type="text"
             value={profileUrl}
             disabled
-            className="input input-bordered w-full p-2 mr-2"
+            className="input input-bordered light:bg-[#f8f0ff] dark:bg-slate-800 dark:text-white rounded-lg w-full p-2 mr-2"
           />
           <Button
             className="bg-[#8a2be2] hover:bg-[#7424c9] text-white"
             onClick={copyToClipboard}
           >
+            <Copy />
             Copy
           </Button>
         </div>
@@ -149,7 +150,7 @@ function Page() {
       <Separator />
 
       <Button
-        className="mt-4 text-[#8a2be2] hover:text-white hover:bg-[#7424c9] bg-white"
+        className="mt-4 text-[#8a2be2] bg-transparent hover:text-white hover:bg-[#7424c9] border-[#8a2be2] border-[2px]"
         onClick={(e) => {
           e.preventDefault();
           fetchMessages(true);
@@ -161,7 +162,7 @@ function Page() {
           <RefreshCcw className="h-4 w-4" />
         )}
       </Button>
-      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="w-full mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
         {messages.length > 0 ? (
           messages.map((message, index) => (
             <MessageCard

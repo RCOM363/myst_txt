@@ -54,10 +54,10 @@ function Page() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-800">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="w-[90%] max-w-md p-8 space-y-8 rounded-lg border-solid border-[2px]">
         <div className="text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
+          <h1 className="text-3xl text-[#8a2be2] font-extrabold tracking-tight lg:text-4xl mb-6">
             Verify your account
           </h1>
           <p className="mb-4">Enter the verification code sent to your email</p>
@@ -77,7 +77,10 @@ function Page() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className="w-full bg-[#8a2be2] hover:bg-[#7424c9] text-white"
+            >
               Submit code
             </Button>
           </form>

@@ -87,8 +87,8 @@ function Page() {
   };
 
   return (
-    <div className="w-[100vw] h-[100vh] bg-gradient-to-b from-[#f0e6ff] to-[#f8f0ff] pt-20">
-      <div className="w-[90%] mx-auto md:mx-8 lg:mx-auto p-6 rounded max-w-2xl border-[#8a2be2]/100 bg-white shadow-lg">
+    <div className="w-[100vw] h-[100vh] pt-20">
+      <div className="w-[90%] mx-auto md:mx-8 lg:mx-auto p-6 rounded-lg max-w-2xl border-solid border-[2px]">
         <h1 className="text-3xl lg:text-4xl text-[#8a2be2] text-center font-bold mb-4">
           Send an Anonymous Message
         </h1>
@@ -142,7 +142,7 @@ function Page() {
         <div className="w-full flex justify-center items-center">
           <Button
             type="submit"
-            className="mt-4 text-[#8a2be2] bg-white hover:bg-[#7424c9] hover:text-white"
+            className="mt-4 text-[#8a2be2] bg-transparent hover:bg-[#7424c9] hover:text-white border-[#8a2be2] border-[2px]"
             disabled={areMessagesLoading}
             onClick={() => fetchSuggestionMessages()}
           >
@@ -168,7 +168,7 @@ function Page() {
                   Click on any messages below to select it
                 </CardDescription>
               </CardHeader>
-              <CardContent className="w-full flex flex-col items-center space-y-4">
+              <CardContent className="w-full flex flex-col items-center gap-1 space-y-4">
                 {messages.map((message, index) => (
                   <Button
                     key={index}
