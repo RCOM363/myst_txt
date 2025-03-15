@@ -15,6 +15,7 @@ import { ApiResponse } from "@/types/ApiResponse";
 import { Button } from "@/components/ui/button";
 import { Copy, Loader2, RefreshCcw } from "lucide-react";
 import MessageCard from "@/components/MessageCard";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { User } from "next-auth";
 
 function Page() {
@@ -114,7 +115,7 @@ function Page() {
   };
 
   return (
-    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 rounded w-[90%] lg:max-w-6xl">
+    <div className="my-8 mx-auto md:mx-8 lg:mx-auto p-6 rounded w-[100%] lg:max-w-6xl">
       <h1 className="text-4xl text-[#8a2be2] font-bold mb-4">User Dashboard</h1>
       <div className="mb-4">
         <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>{" "}
@@ -162,19 +163,21 @@ function Page() {
           <RefreshCcw className="h-4 w-4" />
         )}
       </Button>
-      <div className="w-full mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-        {messages.length > 0 ? (
-          messages.map((message, index) => (
-            <MessageCard
-              key={index}
-              message={message}
-              onMessageDelete={handleDeleteMessage}
-            />
-          ))
-        ) : (
-          <p>No messages to display.</p>
-        )}
-      </div>
+      <ScrollArea className="w-full h-[40vh] p-4">
+        <div className="w-full mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+          {messages.length > 0 ? (
+            messages.map((message, index) => (
+              <MessageCard
+                key={index}
+                message={message}
+                onMessageDelete={handleDeleteMessage}
+              />
+            ))
+          ) : (
+            <p>No messages to display.</p>
+          )}
+        </div>
+      </ScrollArea>
     </div>
   );
 }
