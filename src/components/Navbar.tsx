@@ -14,7 +14,7 @@ function Navbar() {
     <nav className="p-3 md:py-6 md:px-20 shadow-md text-[#8a2be2]">
       <div className="container mx-auto flex md:flex-row justify-between items-center">
         <Link href="/" className="text-3xl font-bold md:mb-0">
-          Anora
+          MystTxt
         </Link>
         {session ? (
           <>

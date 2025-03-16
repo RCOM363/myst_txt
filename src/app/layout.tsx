@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Anora",
+  title: "MystTxt",
   description: "Receive anonymous/mystery messages",
 };
 

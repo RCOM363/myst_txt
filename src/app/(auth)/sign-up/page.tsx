@@ -93,7 +93,7 @@ function Page() {
       <div className="w-[90%] max-w-md p-8 space-y-8 rounded-lg border-solid border-[2px]">
         <div className="text-center">
           <h1 className="text-4xl text-[#8a2be2] font-extrabold tracking-tight lg:text-5xl mb-6">
-            Join Anora
+            Join MystTxt
           </h1>
           <p className="mb-4">
             Sign up to begin your journey of anonymous feedback
