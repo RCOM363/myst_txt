@@ -25,7 +25,7 @@ function Navbar() {
               onClick={() => signOut()}
               className="bg-[#8a2be2] hover:bg-[#7424c9] md:w-auto text-white"
             >
-              <LogOut/>
+              <LogOut />
               Logout
             </Button>
           </>

@@ -27,11 +27,19 @@ export async function GET(request: Request) {
   const userId = new mongoose.Types.ObjectId(user._id);
   // aggregation pipelines doesnt convert string to object Id automatically
 
+  // parse pagination parameters
+  const url = new URL(request.url);
+  const page = parseInt(url.searchParams.get("page") || "1");
+  const limit = parseInt(url.searchParams.get("limit") || "6");
+
+  const skip = (page - 1) * limit;
+
   try {
     const user = await User.aggregate([
       { $match: { _id: userId } },
       { $unwind: "$messages" }, // splits messages into separate documents
       { $sort: { "messages.createdAt": -1 } }, // sort messages documents
+      { $skip: skip },
       { $group: { _id: "_id", messages: { $push: "$messages" } } }, // group messages into single document
     ]);
 
@@ -47,10 +55,21 @@ export async function GET(request: Request) {
       );
     }
 
+    // get total messages count
+    const count = await User.aggregate([
+      { $match: { _id: userId } },
+      { $project: { messageCount: { $size: "$messages" } } },
+    ]);
+
+    const totalMessages = count.length > 0 ? count[0].messageCount : 0;
+    const totalPages = Math.ceil(totalMessages / limit);
+
     return Response.json(
       {
         success: true,
         messages: user[0].messages,
+        totalPages,
+        currentPage: page,
       },
       {
         status: 200,

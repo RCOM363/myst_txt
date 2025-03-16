@@ -17,11 +17,14 @@ import { Copy, Loader2, RefreshCcw } from "lucide-react";
 import MessageCard from "@/components/MessageCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { User } from "next-auth";
+import Pagination from "@/components/Pagination";
 
 function Page() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { data: session } = useSession();
 
@@ -53,8 +56,11 @@ function Page() {
       setIsLoading(true);
       setIsSwitchLoading(true);
       try {
-        const response = await axios.get<ApiResponse>("/api/get-messages");
+        const response = await axios.get<ApiResponse>(
+          `/api/get-messages?page=${currentPage}&limit=6`
+        );
         setMessages(response.data.messages || []);
+        setTotalPages(response.data.totalPages || 1);
         if (refresh) {
           toast.success("Refreshed Messages", {
             description: "Showing latest messages",
@@ -70,7 +76,7 @@ function Page() {
         setIsSwitchLoading(false);
       }
     },
-    [setIsLoading, setMessages]
+    [setIsLoading, setMessages, currentPage]
   );
 
   // optimistic ui update for messages
@@ -178,6 +184,11 @@ function Page() {
           )}
         </div>
       </ScrollArea>
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 }

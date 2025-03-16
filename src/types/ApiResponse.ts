@@ -6,4 +6,6 @@ export interface ApiResponse {
   isAcceptingMessage?: boolean;
   messages?: Array<Message>;
   questions?: string;
+  totalPages?: number;
+  currentPage?: number;
 }
