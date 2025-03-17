@@ -27,3 +27,9 @@ MystTxt is a fun and secure anonymous messaging platform built with Next.js. Cre
 - **Anonymous Messaging**: Visitors can send messages anonymously without signing in.
 
 - **AI Message Suggestions**: Option to generate message suggestions using AI.
+
+## Credits
+
+This project was built by following a YouTube tutorial by [Hitesh](https://github.com/hiteshchoudhary). You can check out the original tutorial here: [Chai aur full stack NextJS](https://youtube.com/playlist?list=PLu71SKxNbfoBAaWGtn9GA2PTw0HO0tXzq&si=4upjwfZxyC_2AOtL).
+<br/>
+I have completed the assignment & expanded on the project by making changes such as a revamped UI, responsive design, pagination, dark/light mode.
