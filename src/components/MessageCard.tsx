@@ -59,7 +59,10 @@ function MessageCard({ message, onMessageDelete }: messageCardProp) {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleDelete}>
+                <AlertDialogAction
+                  onClick={handleDelete}
+                  className="bg-red-700 dark:bg-red-800 hover:bg-red-800 dark:hover:bg-red-900 text-white"
+                >
                   Continue
                 </AlertDialogAction>
               </AlertDialogFooter>
