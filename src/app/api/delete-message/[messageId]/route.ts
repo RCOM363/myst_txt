@@ -7,8 +7,8 @@ import User from "@/model/user.model";
 import { authOptions } from "../../auth/[...nextauth]/options";
 
 export async function DELETE(
-  request: Request,
-  { params }: { params: { messageId: string } }
+  _: Request,
+  { params }: { params: Promise<{ messageId: string }> }
 ) {
   await dbConnect();
 
@@ -28,7 +28,7 @@ export async function DELETE(
   }
 
   const userId = new mongoose.Types.ObjectId(user._id);
-  const messageId = await params.messageId;
+  const { messageId } = await params;
 
   try {
     const updatedResult = await User.updateOne(

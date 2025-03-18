@@ -3,6 +3,15 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import dbConnect from "@/lib/dbConnect";
 import User from "@/model/user.model";
+import { User as nextAuthUser } from "next-auth";
+import { ZodError } from "zod";
+
+type AuthUser = nextAuthUser & {
+  _id: string;
+  isVerified: boolean;
+  isAcceptingMessages: boolean;
+  username: string;
+};
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -10,18 +19,24 @@ export const authOptions: NextAuthOptions = {
       id: "credentials",
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "text" },
+        identifier: { label: "Email or Username", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials: any): Promise<any> {
+      async authorize(
+        credentials: Record<"identifier" | "password", string> | undefined
+      ): Promise<AuthUser> {
+        if (!credentials) {
+          throw new Error("Missing credentials");
+        }
+
         await dbConnect();
         try {
           const user = await User.findOne({
             $or: [
-              { email: credentials.identifier },
-              { username: credentials.identifier },
+              { email: credentials?.identifier },
+              { username: credentials?.identifier },
             ],
-          });
+          }).lean();
           if (!user) {
             throw new Error("No user found with this email");
           }
@@ -29,16 +44,32 @@ export const authOptions: NextAuthOptions = {
             throw new Error("Please verify your account before logging in");
           }
           const isPasswordCorrect = await bcrypt.compare(
-            credentials.password,
+            credentials?.password,
             user.password
           );
-          if (isPasswordCorrect) {
-            return user;
-          } else {
+          if (!isPasswordCorrect) {
             throw new Error("Incorrect password");
           }
-        } catch (err: any) {
-          throw new Error(err);
+
+          return {
+            id: String(user._id),
+            _id: String(user._id), // Convert _id to string
+            name: user.username, // NextAuth expects a `name` field
+            email: user.email,
+            isVerified: user.isVerified,
+            isAcceptingMessages: user.isAcceptingMessage,
+            username: user.username,
+          };
+        } catch (error: unknown) {
+          if (error instanceof ZodError) {
+            throw new Error(`Validation Error: ${error.message}`);
+          } else if (error instanceof Error) {
+            throw new Error(
+              error.message || "An error occurred during authentication"
+            );
+          } else {
+            throw new Error("An unknown error occurred");
+          }
         }
       },
     }),
