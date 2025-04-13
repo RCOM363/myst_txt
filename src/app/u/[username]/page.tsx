@@ -28,6 +28,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
 import { Loader2, Sparkles } from "lucide-react";
+import { ReportView } from "./view";
 
 function Page() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -88,6 +89,7 @@ function Page() {
 
   return (
     <div className="w-[100vw] h-[100vh] pt-20">
+      <ReportView slug={username} />
       <div className="w-[90%] mx-auto md:mx-8 lg:mx-auto p-6 rounded-lg max-w-2xl border-solid border-[2px]">
         <h1 className="text-3xl lg:text-4xl text-[#8a2be2] text-center font-bold mb-4">
           Send an Anonymous Message

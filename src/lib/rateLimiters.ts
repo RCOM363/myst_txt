@@ -1,10 +1,5 @@
 import { Ratelimit } from "@upstash/ratelimit";
-import { Redis } from "@upstash/redis";
-
-export const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-});
+import { redis } from "./redis";
 
 export const signupLimiter = new Ratelimit({
   redis,
@@ -18,8 +13,8 @@ export const profileLimiter = new Ratelimit({
 
 export const userMessagesLimiter = new Ratelimit({
   redis,
-  limiter:Ratelimit.slidingWindow(100,'1m')
-})
+  limiter: Ratelimit.slidingWindow(100, "1m"),
+});
 
 export const generalLimiter = new Ratelimit({
   redis,

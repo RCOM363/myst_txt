@@ -25,6 +25,7 @@ function Page() {
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageViews, setPageViews] = useState(0);
 
   const { data: session } = useSession();
 
@@ -84,10 +85,23 @@ function Page() {
     setMessages(messages.filter((message) => message._id !== messageId));
   };
 
+  const fetchPageView = async () => {
+    try {
+      const response = await axios.get<ApiResponse>("/api/pageview");
+      setPageViews(response.data.views || 0);
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>;
+      toast.error("Error fetching messages", {
+        description: axiosError.response?.data.message,
+      });
+    }
+  };
+
   useEffect(() => {
     if (!session || !session.user) return;
     fetchMessages();
     fetchAcceptMessage();
+    fetchPageView();
   }, [session, setValue, fetchAcceptMessage, fetchMessages]);
 
   // handle swtich change
@@ -156,19 +170,24 @@ function Page() {
       </div>
       <Separator />
 
-      <Button
-        className="mt-4 text-[#8a2be2] bg-transparent hover:text-white hover:bg-[#7424c9] border-[#8a2be2] border-[2px]"
-        onClick={(e) => {
-          e.preventDefault();
-          fetchMessages(true);
-        }}
-      >
-        {isLoading ? (
-          <Loader2 className="h-4 w-4 animate-spin" />
-        ) : (
-          <RefreshCcw className="h-4 w-4" />
-        )}
-      </Button>
+      <div className="flex items-center gap-2 mt-4">
+        <Button
+          className=" text-[#8a2be2] bg-transparent hover:text-white hover:bg-[#7424c9] border-[#8a2be2] border-[2px]"
+          onClick={(e) => {
+            e.preventDefault();
+            fetchMessages(true);
+          }}
+        >
+          {isLoading ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <RefreshCcw className="h-4 w-4" />
+          )}
+        </Button>
+        <Button className="bg-[#8a2be2] hover:bg-[#7424c9] text-white">
+          <span>Views : {pageViews}</span>
+        </Button>
+      </div>
       <ScrollArea className="w-full h-[40vh] p-4">
         <div className="w-full mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
           {messages.length > 0 ? (
