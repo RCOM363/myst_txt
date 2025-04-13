@@ -5,8 +5,21 @@ import { User as nextAuthUser } from "next-auth";
 import dbConnect from "@/lib/dbConnect";
 import User from "@/model/user.model";
 import { authOptions } from "../auth/[...nextauth]/options";
+import { getUserIp } from "@/utils/ip";
+import { userMessagesLimiter } from "@/lib/rateLimiters";
 
 export async function GET(request: Request) {
+  const ip = await getUserIp();
+  const { success } = await userMessagesLimiter.limit(ip as string);
+  if (!success) {
+    return Response.json(
+      {
+        success: false,
+        message: "Too many requests. Try again later",
+      },
+      { status: 429 }
+    );
+  }
   await dbConnect();
 
   const session = await getServerSession(authOptions);

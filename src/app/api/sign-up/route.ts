@@ -2,8 +2,22 @@ import dbConnect from "@/lib/dbConnect";
 import User from "@/model/user.model";
 import bcrypt from "bcryptjs";
 import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
+import { getUserIp } from "@/utils/ip";
+import { signupLimiter } from "@/lib/rateLimiters";
 
 export async function POST(request: Request) {
+  const ip = await getUserIp();
+  const { success } = await signupLimiter.limit(ip as string);
+
+  if (!success) {
+    return Response.json(
+      {
+        success: false,
+        message: "Too many requests. Try again later",
+      },
+      { status: 429 }
+    );
+  }
   await dbConnect();
   try {
     const { username, email, password } = await request.json();

@@ -1,8 +1,21 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { getUserIp } from "@/utils/ip";
+import { generalLimiter } from "@/lib/rateLimiters";
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY!);
 
 export async function POST() {
+  const ip = await getUserIp();
+  const { success } = await generalLimiter.limit(ip as string);
+  if (!success) {
+    return Response.json(
+      {
+        success: false,
+        message: "Too many requests. Try again later",
+      },
+      { status: 429 }
+    );
+  }
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 

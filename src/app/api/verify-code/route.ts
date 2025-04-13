@@ -1,8 +1,22 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/model/user.model";
 import { verifySchema } from "@/schemas/verifySchema";
+import { getUserIp } from "@/utils/ip";
+import { generalLimiter } from "../../../lib/rateLimiters";
 
 export async function POST(request: Request) {
+  const ip = await getUserIp();
+  const { success } = await generalLimiter.limit(ip as string);
+
+  if (!success) {
+    return Response.json(
+      {
+        success: false,
+        message: "Too many request. Try again later",
+      },
+      { status: 429 }
+    );
+  }
   await dbConnect();
 
   try {
@@ -42,7 +56,9 @@ export async function POST(request: Request) {
 
     const isCodeValid = user.verifyCode === code;
     const isCodeExpired = new Date(user.verifyCodeExpiry) > new Date();
-    console.log(`${new Date(user.verifyCodeExpiry)} > ${new Date()} : ${isCodeExpired}`);
+    console.log(
+      `${new Date(user.verifyCodeExpiry)} > ${new Date()} : ${isCodeExpired}`
+    );
 
     if (isCodeValid && isCodeExpired) {
       user.isVerified = true;

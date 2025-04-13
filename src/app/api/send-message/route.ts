@@ -1,8 +1,25 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/model/user.model";
 import { Message } from "@/model/user.model";
+import { generalLimiter } from "@/lib/rateLimiters";
+import { getUserIp } from "@/utils/ip";
 
 export async function POST(request: Request) {
+  const ip = await getUserIp();
+  const { success } = await generalLimiter.limit(ip as string);
+
+  if (!success) {
+    return Response.json(
+      {
+        success: false,
+        message: "Too many requests. Try again later",
+      },
+      {
+        status: 429,
+      }
+    );
+  }
+
   await dbConnect();
 
   const { username, content } = await request.json();

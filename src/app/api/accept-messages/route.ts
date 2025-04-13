@@ -5,8 +5,21 @@ import dbConnect from "@/lib/dbConnect";
 import User from "@/model/user.model";
 import { authOptions } from "../auth/[...nextauth]/options";
 import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
+import { getUserIp } from "@/utils/ip";
+import { profileLimiter } from "@/lib/rateLimiters";
 
 export async function POST(request: Request) {
+  const ip = await getUserIp();
+  const { success } = await profileLimiter.limit(ip as string);
+  if (!success) {
+    return Response.json(
+      {
+        success: false,
+        message: "Too many requests. Try again later",
+      },
+      { status: 429 }
+    );
+  }
   await dbConnect();
 
   const session = await getServerSession(authOptions);
@@ -84,6 +97,17 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
+  const ip = await getUserIp();
+  const { success } = await profileLimiter.limit(ip as string);
+  if (!success) {
+    return Response.json(
+      {
+        success: false,
+        message: "Too many requests. Try again later",
+      },
+      { status: 429 }
+    );
+  }
   await dbConnect();
 
   const session = await getServerSession(authOptions);
