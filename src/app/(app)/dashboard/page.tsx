@@ -26,6 +26,7 @@ function Page() {
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageViews, setPageViews] = useState(0);
+  const [totalMessages, setTotalMessages] = useState(0);
 
   const { data: session } = useSession();
 
@@ -62,6 +63,7 @@ function Page() {
         );
         setMessages(response.data.messages || []);
         setTotalPages(response.data.totalPages || 1);
+        setTotalMessages(response.data.totalMessages || 0);
         if (refresh) {
           toast.success("Refreshed Messages", {
             description: "Showing latest messages",
@@ -88,7 +90,7 @@ function Page() {
   const fetchPageView = async () => {
     try {
       const response = await axios.get<ApiResponse>("/api/pageview");
-      setPageViews(response.data.views || 0);
+      setPageViews(response.data.totalViews || 0);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast.error("Error fetching messages", {
@@ -138,7 +140,10 @@ function Page() {
     <div className="my-8 mx-auto md:mx-8 lg:mx-auto p-6 rounded w-[100%] lg:max-w-6xl">
       <h1 className="text-4xl text-[#8a2be2] font-bold mb-4">User Dashboard</h1>
       <div className="mb-4">
-        <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>{" "}
+        {/* public url */}
+        <h2 className="text-lg font-semibold mb-2">
+          Copy Your Unique Link
+        </h2>{" "}
         <div className="flex items-center">
           <input
             type="text"
@@ -155,7 +160,7 @@ function Page() {
           </Button>
         </div>
       </div>
-
+      {/* accept messages switch */}
       <div className="flex justify-start items-center mb-4">
         <Switch
           {...register("acceptMessages")}
@@ -184,10 +189,15 @@ function Page() {
             <RefreshCcw className="h-4 w-4" />
           )}
         </Button>
+        {/* stats */}
         <Button className="bg-[#8a2be2] hover:bg-[#7424c9] text-white">
           <span>Views : {pageViews}</span>
         </Button>
+        <Button className="bg-[#8a2be2] hover:bg-[#7424c9] text-white">
+          <span>Messages : {totalMessages}</span>
+        </Button>
       </div>
+      {/* messages */}
       <ScrollArea className="w-full h-[40vh] p-4">
         <div className="w-full mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
           {messages.length > 0 ? (

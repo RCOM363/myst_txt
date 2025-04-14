@@ -81,6 +81,7 @@ export async function GET(request: Request) {
       {
         success: true,
         messages: user[0].messages,
+        totalMessages,
         totalPages,
         currentPage: page,
       },

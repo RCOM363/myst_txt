@@ -29,7 +29,7 @@ export async function GET() {
       {
         success: true,
         message: "Page view fetched successfully",
-        views: views ?? 0,
+        totalViews: views ?? 0,
       },
       { status: 200 }
     );

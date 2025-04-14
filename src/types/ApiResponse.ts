@@ -8,5 +8,6 @@ export interface ApiResponse {
   questions?: string;
   totalPages?: number;
   currentPage?: number;
-  views?: number;
+  totalViews?: number;
+  totalMessages?: number;
 }
