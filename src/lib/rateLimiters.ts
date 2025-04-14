@@ -18,6 +18,6 @@ export const userMessagesLimiter = new Ratelimit({
 
 export const generalLimiter = new Ratelimit({
   redis,
-  limiter: Ratelimit.slidingWindow(5, "1m"),
+  limiter: Ratelimit.slidingWindow(8, "1m"),
   analytics: true,
 });

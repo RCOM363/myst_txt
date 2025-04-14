@@ -34,6 +34,8 @@ MystTxt is a fun and secure anonymous messaging platform built with Next.js. Cre
 
 - **Unique Pageview counter**: Tracks number of unique views (within 24hrs) to user's message page.
 
+- **Language Profanity filter**: Prevents people from using profane language.
+
 ## Credits
 
 This project was built by following a YouTube tutorial by [Hitesh](https://github.com/hiteshchoudhary). You can check out the original tutorial here: [Chai aur full stack NextJS](https://youtube.com/playlist?list=PLu71SKxNbfoBAaWGtn9GA2PTw0HO0tXzq&si=4upjwfZxyC_2AOtL).

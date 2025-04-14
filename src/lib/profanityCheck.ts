@@ -1,11 +1,7 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY!);
+import { geminiModel } from "./geminiAI";
 
 export async function isProfane(message: string) {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-
     const prompt = `
         You are an intelligent and multilingual content moderation assistant.
     
@@ -20,7 +16,7 @@ export async function isProfane(message: string) {
         Answer (true/false only):
     `;
 
-    const response = await model.generateContent(prompt);
+    const response = await geminiModel.generateContent(prompt);
 
     const result = response.response.text().trim().toLowerCase();
 
