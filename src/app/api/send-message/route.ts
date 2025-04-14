@@ -3,6 +3,7 @@ import User from "@/model/user.model";
 import { Message } from "@/model/user.model";
 import { generalLimiter } from "@/lib/rateLimiters";
 import { getUserIp } from "@/utils/ip";
+import { isProfane } from "@/lib/profanityCheck";
 
 export async function POST(request: Request) {
   const ip = await getUserIp();
@@ -50,6 +51,23 @@ export async function POST(request: Request) {
           status: 403,
         }
       );
+    }
+
+    const checkProfanity = user.checkProfanity;
+
+    if (checkProfanity) {
+      const profane = await isProfane(content);
+      if (profane) {
+        return Response.json(
+          {
+            success: false,
+            message: "The message contains profanity",
+          },
+          {
+            status: 403,
+          }
+        );
+      }
     }
 
     const newMessage = {

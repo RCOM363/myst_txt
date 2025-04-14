@@ -18,6 +18,7 @@ import MessageCard from "@/components/MessageCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { User } from "next-auth";
 import Pagination from "@/components/Pagination";
+import { checkProfanitySchema } from "@/schemas/checkProfanitySchema";
 
 function Page() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -30,19 +31,37 @@ function Page() {
 
   const { data: session } = useSession();
 
-  const form = useForm({
+  const acceptMessagesForm = useForm({
     resolver: zodResolver(acceptMessageSchema),
   });
 
-  const { register, watch, setValue } = form;
+  const checkProfanityForm = useForm({
+    resolver: zodResolver(checkProfanitySchema),
+  });
 
-  const acceptMessages = watch("acceptMessages");
+  const {
+    register: registerAccept,
+    watch: watchAccept,
+    setValue: setValueAccept,
+  } = acceptMessagesForm;
+
+  const {
+    register: registerProfanity,
+    watch: watchProfanoty,
+    setValue: setValueProfanity,
+  } = checkProfanityForm;
+
+  const acceptMessages = watchAccept("acceptMessages");
+  const checkProfanity = watchProfanoty("checkProfanity");
 
   const fetchAcceptMessage = useCallback(async () => {
     setIsSwitchLoading(true);
     try {
       const response = await axios.get<ApiResponse>("/api/accept-messages");
-      setValue("acceptMessages", response.data.isAcceptingMessage as boolean);
+      setValueAccept(
+        "acceptMessages",
+        response.data.isAcceptingMessage as boolean
+      );
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast.error("Error fetching message acceptance status", {
@@ -51,7 +70,25 @@ function Page() {
     } finally {
       setIsSwitchLoading(false);
     }
-  }, [setValue]);
+  }, [setValueAccept]);
+
+  const fetchCheckProfanity = useCallback(async () => {
+    setIsSwitchLoading(true);
+    try {
+      const response = await axios.get<ApiResponse>("/api/check-profanity");
+      setValueProfanity(
+        "checkProfanity",
+        response.data.checkProfanity as boolean
+      );
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>;
+      toast.error("Error fetching check profanity status", {
+        description: axiosError.response?.data.message,
+      });
+    } finally {
+      setIsSwitchLoading(false);
+    }
+  }, [setValueProfanity]);
 
   const fetchMessages = useCallback(
     async (refresh: boolean = false) => {
@@ -103,20 +140,43 @@ function Page() {
     if (!session || !session.user) return;
     fetchMessages();
     fetchAcceptMessage();
+    fetchCheckProfanity();
     fetchPageView();
-  }, [session, setValue, fetchAcceptMessage, fetchMessages]);
+  }, [
+    session,
+    setValueAccept,
+    fetchAcceptMessage,
+    setValueProfanity,
+    fetchCheckProfanity,
+    fetchMessages,
+  ]);
 
   // handle swtich change
-  const handleSwitchChange = async () => {
+  const handleAcceptMessagesChange = async () => {
     try {
       const response = await axios.post<ApiResponse>("/api/accept-messages", {
         acceptMessages: !acceptMessages,
       });
-      setValue("acceptMessages", !acceptMessages);
+      setValueAccept("acceptMessages", !acceptMessages);
       toast.success(response.data.message);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast.error("Error updating message acceptance status", {
+        description: axiosError.response?.data.message,
+      });
+    }
+  };
+
+  const handleCheckProfanityChange = async () => {
+    try {
+      const response = await axios.post<ApiResponse>("/api/check-profanity", {
+        checkProfanity: !checkProfanity,
+      });
+      setValueProfanity("checkProfanity", !checkProfanity);
+      toast.success(response.data.message);
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>;
+      toast.error("Error updating check profanity status", {
         description: axiosError.response?.data.message,
       });
     }
@@ -163,14 +223,27 @@ function Page() {
       {/* accept messages switch */}
       <div className="flex justify-start items-center mb-4">
         <Switch
-          {...register("acceptMessages")}
+          {...registerAccept("acceptMessages")}
           className="data-[state=checked]:bg-[#8a2be2]"
           checked={acceptMessages}
-          onCheckedChange={handleSwitchChange}
+          onCheckedChange={handleAcceptMessagesChange}
           disabled={isSwitchLoading}
         />
         <span className="ml-2">
           Accept Messages: {acceptMessages ? "On" : "Off"}
+        </span>
+      </div>
+      {/* check profanity swtich */}
+      <div className="flex justify-start items-center mb-4">
+        <Switch
+          {...registerProfanity("checkProfanity")}
+          className="data-[state=checked]:bg-[#8a2be2]"
+          checked={checkProfanity}
+          onCheckedChange={handleCheckProfanityChange}
+          disabled={isSwitchLoading}
+        />
+        <span className="ml-2">
+          Langauge Profanity Filter: {checkProfanity ? "On" : "Off"}
         </span>
       </div>
       <Separator />

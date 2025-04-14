@@ -4,6 +4,7 @@ export interface ApiResponse {
   success: boolean;
   message: string;
   isAcceptingMessage?: boolean;
+  checkProfanity?: boolean;
   messages?: Array<Message>;
   questions?: string;
   totalPages?: number;
