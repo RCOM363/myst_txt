@@ -44,6 +44,8 @@ function Page() {
     watch: watchAccept,
     setValue: setValueAccept,
   } = acceptMessagesForm;
+  
+  const acceptMessages = watchAccept("acceptMessages");
 
   const {
     register: registerProfanity,
@@ -51,7 +53,6 @@ function Page() {
     setValue: setValueProfanity,
   } = checkProfanityForm;
 
-  const acceptMessages = watchAccept("acceptMessages");
   const checkProfanity = watchProfanoty("checkProfanity");
 
   const fetchAcceptMessage = useCallback(async () => {
@@ -220,31 +221,33 @@ function Page() {
           </Button>
         </div>
       </div>
-      {/* accept messages switch */}
-      <div className="flex justify-start items-center mb-4">
-        <Switch
-          {...registerAccept("acceptMessages")}
-          className="data-[state=checked]:bg-[#8a2be2]"
-          checked={acceptMessages}
-          onCheckedChange={handleAcceptMessagesChange}
-          disabled={isSwitchLoading}
-        />
-        <span className="ml-2">
-          Accept Messages: {acceptMessages ? "On" : "Off"}
-        </span>
-      </div>
-      {/* check profanity swtich */}
-      <div className="flex justify-start items-center mb-4">
-        <Switch
-          {...registerProfanity("checkProfanity")}
-          className="data-[state=checked]:bg-[#8a2be2]"
-          checked={checkProfanity}
-          onCheckedChange={handleCheckProfanityChange}
-          disabled={isSwitchLoading}
-        />
-        <span className="ml-2">
-          Langauge Profanity Filter: {checkProfanity ? "On" : "Off"}
-        </span>
+      <div className="flex flex-wrap items-center md:gap-4 lg:gap-4">
+        {/* accept messages switch */}
+        <div className="flex justify-start items-center mb-4">
+          <Switch
+            {...registerAccept("acceptMessages")}
+            className="data-[state=checked]:bg-[#8a2be2]"
+            checked={acceptMessages}
+            onCheckedChange={handleAcceptMessagesChange}
+            disabled={isSwitchLoading}
+          />
+          <span className="ml-2">
+            Accept Messages: {acceptMessages ? "On" : "Off"}
+          </span>
+        </div>
+        {/* check profanity swtich */}
+        <div className="flex justify-start items-center mb-4">
+          <Switch
+            {...registerProfanity("checkProfanity")}
+            className="data-[state=checked]:bg-[#8a2be2]"
+            checked={checkProfanity}
+            onCheckedChange={handleCheckProfanityChange}
+            disabled={isSwitchLoading}
+          />
+          <span className="ml-2">
+            Langauge Profanity Filter: {checkProfanity ? "On" : "Off"}
+          </span>
+        </div>
       </div>
       <Separator />
 
