@@ -13,6 +13,8 @@ MystTxt is a fun and secure anonymous messaging platform built with Next.js. Cre
 ![Axios](https://img.shields.io/badge/Axios-5A29E4.svg?style=for-the-badge&logo=Axios&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248.svg?style=for-the-badge&logo=MongoDB&logoColor=white)
 ![Mongoose](https://img.shields.io/badge/Mongoose-880000.svg?style=for-the-badge&logo=Mongoose&logoColor=white)
+![Upstash](https://img.shields.io/badge/Upstash-00E9A3.svg?style=for-the-badge&logo=Upstash&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-FF4438.svg?style=for-the-badge&logo=Redis&logoColor=white)
 ![Resend](https://img.shields.io/badge/Resend-000000.svg?style=for-the-badge&logo=Resend&logoColor=white)
 ![Gemini](https://img.shields.io/badge/Google%20Gemini-8E75B2.svg?style=for-the-badge&logo=Google-Gemini&logoColor=white)
 
@@ -27,6 +29,10 @@ MystTxt is a fun and secure anonymous messaging platform built with Next.js. Cre
 - **Anonymous Messaging**: Visitors can send messages anonymously without signing in.
 
 - **AI Message Suggestions**: Option to generate message suggestions using AI.
+
+- **API Rate Limiting**: To prevent spam and abuse of API endpoints
+
+- **Unique Pageview counter**: Tracks number of unique views (within 24hrs) to user's message page.
 
 ## Credits
 
