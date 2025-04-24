@@ -78,7 +78,7 @@ MystTxt is a fun and secure anonymous messaging platform built with Next.js. Cre
 
 ```json
 {
-    "identifier": "string" (username or email)
+    "identifier": "string" //(username or email)
     "password": "string"
 }
 ```
