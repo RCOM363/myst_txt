@@ -68,6 +68,18 @@ export async function GET(request: Request) {
       );
     }
 
+    if (user.length === 0) {
+      return Response.json(
+        {
+          success: true,
+          message: "No messages received yet",
+        },
+        {
+          status: 200,
+        }
+      );
+    }
+
     // get total messages count
     const count = await User.aggregate([
       { $match: { _id: userId } },
