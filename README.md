@@ -46,9 +46,9 @@ MystTxt is a fun and secure anonymous messaging platform built with Next.js. Cre
 
 ```json
 {
-    username: string
-    email: string
-    password: string
+    "username": "string"
+    "email": "string"
+    "password": "string"
 }
 ```
 
@@ -65,8 +65,8 @@ MystTxt is a fun and secure anonymous messaging platform built with Next.js. Cre
 
 ```json
 {
-    username: string
-    code: string
+    "username": "string"
+    "code": "string"
 }
 ```
 
@@ -78,8 +78,8 @@ MystTxt is a fun and secure anonymous messaging platform built with Next.js. Cre
 
 ```json
 {
-    identifier: string (username or email)
-    password: string
+    "identifier": "string" (username or email)
+    "password": "string"
 }
 ```
 
@@ -96,7 +96,7 @@ MystTxt is a fun and secure anonymous messaging platform built with Next.js. Cre
 
 ```json
 {
-    acceptMessages: boolean
+  "acceptMessages": "boolean"
 }
 ```
 
@@ -113,7 +113,7 @@ MystTxt is a fun and secure anonymous messaging platform built with Next.js. Cre
 
 ```json
 {
-    checkProfanity: boolean
+  "checkProfanity": "boolean"
 }
 ```
 
@@ -145,7 +145,7 @@ MystTxt is a fun and secure anonymous messaging platform built with Next.js. Cre
 
 ```json
 {
-    username: string
+  "username": "string"
 }
 ```
 
@@ -162,8 +162,8 @@ MystTxt is a fun and secure anonymous messaging platform built with Next.js. Cre
 
 ```json
 {
-    username: string
-    content: string
+    "username": "string"
+    "content": "string"
 }
 ```
 
