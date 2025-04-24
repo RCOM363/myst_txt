@@ -35,7 +35,7 @@ function Navbar() {
 
   const handleDeleteAccount = async () => {
     try {
-      const response = await axios.post<ApiResponse>("/api/delete-account");
+      const response = await axios.delete<ApiResponse>("/api/delete-account");
       toast.success(response.data.message);
       signOut();
     } catch (error) {

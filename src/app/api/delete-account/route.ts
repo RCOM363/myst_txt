@@ -7,7 +7,7 @@ import dbConnect from "@/lib/dbConnect";
 import User from "@/model/user.model";
 import { authOptions } from "../auth/[...nextauth]/options";
 
-export async function POST() {
+export async function DELETE() {
   await dbConnect();
 
   const session = await getServerSession(authOptions);

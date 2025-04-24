@@ -36,8 +36,139 @@ MystTxt is a fun and secure anonymous messaging platform built with Next.js. Cre
 
 - **Language Profanity filter**: Prevents people from using profane language.
 
+## API Documentation
+
+### User Signup
+
+- **URL:** `/api/sign-up`
+- **Method:** `POST`
+- **Body:**
+
+```json
+{
+    username: string
+    email: string
+    password: string
+}
+```
+
+### Check Username
+
+- **URL:** `/api/check-username?username="string"`
+- **Method:** `GET`
+
+### Verify Code
+
+- **URL:** `/api/verify-code`
+- **Method:** `POST`
+- **Body:**
+
+```json
+{
+    username: string
+    code: string
+}
+```
+
+### User Login (handled by next-auth)
+
+- **URL:** `/api/auth/[...nextauth]`
+- **Method:** `POST`
+- **Body:**
+
+```json
+{
+    identifier: string (username or email)
+    password: string
+}
+```
+
+### Accept Messages (GET)
+
+- **URL:** `/api/accept-messages`
+- **Method:** `GET`
+
+### Accept Messages (POST)
+
+- **URL:** `/api/accept-messages`
+- **Method:** `POST`
+- **Body:**
+
+```json
+{
+    acceptMessages: boolean
+}
+```
+
+### Check Profanity (GET)
+
+- **URL:** `/api/check-profanity`
+- **Method:** `GET`
+
+### Check Profanity (POST)
+
+- **URL:** `/api/check-profanity`
+- **Method:** `POST`
+- **Body:**
+
+```json
+{
+    checkProfanity: boolean
+}
+```
+
+### Get Messages
+
+- **URL:** `/api/get-messages?page="number"&limit="number"`
+- **Method:** `GET`
+
+### Delete Message
+
+- **URL:** `/api/delete-message/:messageId`
+- **Method:** `DELETE`
+
+### Delete Account
+
+- **URL:** `/api/delete-account`
+- **Method:** `DELETE`
+
+### Pageview (GET)
+
+- **URL:** `/api/pageview`
+- **Method:** `GET`
+
+### Pageview (POST)
+
+- **URL:** `/api/pageview`
+- **Method:** `POST`
+- **Body:**
+
+```json
+{
+    username: string
+}
+```
+
+### Suggest Messages
+
+- **URL:** `/api/suggest-messages`
+- **Method:** `POST`
+
+### Send Message
+
+- **URL:** `/api/send-message`
+- **Method:** `POST`
+- **Body:**
+
+```json
+{
+    username: string
+    content: string
+}
+```
+
 ## Credits
 
 This project was built by following a YouTube tutorial by [Hitesh](https://github.com/hiteshchoudhary). You can check out the original tutorial here: [Chai aur full stack NextJS](https://youtube.com/playlist?list=PLu71SKxNbfoBAaWGtn9GA2PTw0HO0tXzq&si=4upjwfZxyC_2AOtL).
 <br/>
-I have completed the assignment & expanded on the project by making changes such as a revamped UI, responsive design, pagination, dark/light mode.
+I have completed the assignment & expanded on the project by making changes such as a revamped UI, responsive design, pagination, language profanity filter and more.
