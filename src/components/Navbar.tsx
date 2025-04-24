@@ -73,7 +73,7 @@ function Navbar() {
               <DropdownMenuContent align="end">
                 {/* logout */}
                 <DropdownMenuItem onClick={() => signOut()}>
-                  <Button variant={"ghost"}>
+                  <Button variant={"outline"} className="w-full">
                     <LogOut />
                     Logout
                   </Button>
@@ -84,7 +84,7 @@ function Navbar() {
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <Button
-                        variant={"ghost"}
+                        variant={"destructive"}
                         onClick={(e) => e.stopPropagation()}
                       >
                         <Trash2 /> Delete Account
