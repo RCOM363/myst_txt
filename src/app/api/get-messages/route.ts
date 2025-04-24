@@ -56,7 +56,7 @@ export async function GET(request: Request) {
       { $group: { _id: "_id", messages: { $push: "$messages" } } }, // group messages into single document
     ]);
 
-    if (!user || user.length === 0) {
+    if (!user) {
       return Response.json(
         {
           success: false,
