@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useParams } from "next/navigation";
 import * as z from "zod";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -90,8 +91,8 @@ function Page() {
   return (
     <div className="w-[100vw] h-[100vh] pt-20">
       <ReportView slug={username} />
-      <div className="w-[90%] mx-auto md:mx-8 lg:mx-auto p-6 rounded-lg max-w-2xl border-solid border-[2px]">
-        <h1 className="text-3xl lg:text-4xl text-[#8a2be2] text-center font-bold mb-4">
+      <div className="w-[90%] mx-auto p-6 rounded-lg max-w-2xl border-solid border-[2px]">
+        <h1 className="text-2xl sm:text-4xl text-[#8a2be2] text-center font-bold mb-4">
           Send an Anonymous Message
         </h1>
         <div className="mb-4">
@@ -138,6 +139,12 @@ function Page() {
               </form>
             </Form>
           </div>
+          <p className="w-full text-center text-sm">
+            Want your own MystTxt link?{" "}
+            <Link href={"/sign-up"} className="text-[#8a2be2] font-semibold">
+              Sign Up Now!
+            </Link>
+          </p>
         </div>
         <Separator />
 
@@ -175,7 +182,7 @@ function Page() {
                   <Button
                     key={index}
                     variant="outline"
-                    className="w-full text-wrap text-ellipsis text-center p-3 mb-2"
+                    className="w-full h-auto text-wrap text-ellipsis text-center p-3 mb-2"
                     onClick={() => form.setValue("content", message)}
                   >
                     {message}

@@ -16,7 +16,19 @@ export async function POST() {
   }
   try {
     const prompt =
-      "Create a list of three open-ended and engaging questions formatted as a single string. Each question should be separated by '||'. These questions are for an anonymous social messaging platform, like Qooh.me, and should be suitable for a diverse audience. Avoid personal or sensitive topics, focusing instead on universal themes that encourage friendly interaction. For example, your output should be structured like this: 'What’s a hobby you’ve recently started?||If you could have dinner with any historical figure, who would it be?||What’s a simple thing that makes you happy?'. Ensure the questions are intriguing, foster curiosity, and contribute to a positive and welcoming conversational environment and are not repeatitive.";
+      `
+        Generate a single string containing three different, open-ended, and engaging questions intended for an anonymous social messaging platform (like Qooh.me).
+        Strict output rules:
+        - Separate each question with ||.
+        - Do not add any quotation marks (") at the start, end, or anywhere else.
+        - Avoid any personal, sensitive, or controversial topics (no politics, religion, trauma, etc.).
+        - Focus on universal, light-hearted themes that anyone can answer easily (e.g., hobbies, dreams, favorite things, imagination).
+        - Do not repeat question styles or structures (e.g., don't start all questions with "If you could..." or "What's your favorite...").
+        - Each question must feel fresh, varied, and spark genuine curiosity or storytelling.
+        - Output example format: "What’s a hobby you’ve recently picked up?||If you could instantly master a new skill, what would it be?||What’s a small thing that always brightens your day?"
+        - Ensure the tone is positive, welcoming, and friendly. The goal is to inspire interesting conversations among a diverse audience without feeling repetitive or formulaic.
+        Important: Your output must be a single plain string without any surrounding quotation marks or line breaks.
+      `;
 
     const response = await geminiModel.generateContent(prompt);
 
